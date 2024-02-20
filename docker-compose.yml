@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest  # Or the image version you require
+    environment:
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: 1234  # Replace with your password
+      POSTGRES_DB: TaskManager
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Optional persistent storage
+    ports:
+      - "5432:5432"
+    networks:
+      - my_network
+
+  flask:
+    build: .  # Builds your Flask app image from the current directory
+    ports:
+      - "5002:5000"
+    depends_on:
+      - postgres
+    networks:
+      - my_network
+
+networks:
+  my_network:
+
+volumes:
+  postgres_data:  # Optional persistent storage for Postgres data
