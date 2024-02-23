@@ -1,6 +1,5 @@
 import logging
 from flask import Flask, jsonify, request
-from flask_migrate import Migrate, MigrateCommand
 from flask_restful import reqparse, abort, Api, Resource
 from flask_jwt_extended import JWTManager
 from model import db
@@ -45,8 +44,8 @@ dictConfig(
 extra = logging.getLogger("extra")
 
 app = Flask(__name__)
-migrate = Migrate(app, db)
-app.config.from_object(DevelopmentConfig)
+# migrate = Migrate(app, db)
+app.config.from_object(ProductionConfig)
 jwt = JWTManager(app)
 api = Api(app)
 
