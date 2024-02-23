@@ -26,22 +26,34 @@ dictConfig(
             },
             "error": {
                 "class": "logging.FileHandler",
-                "filename": "logs/error.log",
+                "filename": "error.log",
+                "formatter": "default",
+            },
+            "debug": {
+                "class": "logging.FileHandler",
+                "filename": "debug.log",
                 "formatter": "default",
             },
         },
 
         "loggers": {
-            "extra": {
-                "level": "INFO",
+            "error": {
+                "level": "ERROR",
+                "handlers": ["error"],
+                "propagate": False,
+            },
+            "debug": {
+                "level": "DEBUG",
                 "handlers": ["error"],
                 "propagate": False,
             }
+
         },
     }
 )
 
-extra = logging.getLogger("extra")
+error_log = logging.getLogger("error")
+debug_log = logging.getLogger("debug")
 
 app = Flask(__name__)
 # migrate = Migrate(app, db)
@@ -52,7 +64,8 @@ api = Api(app)
 
 @app.errorhandler(404)
 def not_found(error):
-    extra.error("An error message")
+    error_log.error("An error message")
+    debug_log.error("An message on debug")
     return jsonify({'error': 'Not found'}), 404
 
 
