@@ -15,9 +15,7 @@ COPY . .
 # Install any needed dependencies specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-RUN mkdir logs && \
-    touch logs/error.log && \
-    chmod 666 logs/error.log
+RUN chmod 666 logs/error.log
 
 # Make port 5000 available to the world outside this container
 EXPOSE 5000
