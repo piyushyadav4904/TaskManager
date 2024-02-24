@@ -7,7 +7,7 @@ from flask_restful import Resource
 
 from model import Task, User, db
 
-extra = logging.getLogger("extra")
+error_logger = logging.getLogger("error")
 
 
 class TaskResource(Resource):
@@ -24,7 +24,7 @@ class TaskResource(Resource):
                     return {"error": "Task not found"}, 404
                 return {'task': task.serialize()}, 200
         except Exception as e:
-            extra.error("An error occurred while retrieving tasks")
+            error_logger.error("An error occurred while retrieving tasks")
             return {'message': 'An error occurred while retrieving tasks'}, 500
 
     @jwt_required()
@@ -43,7 +43,7 @@ class TaskResource(Resource):
             return {'task': new_task.serialize()}, 201
         except Exception as e:
             db.session.rollback()
-            extra.error("An error occurred creating the task")
+            error_logger.error("An error occurred creating the task")
             return {'message': 'An error occurred creating the task'}, 500
 
     @jwt_required()
@@ -60,7 +60,7 @@ class TaskResource(Resource):
             return jsonify({'task': task.serialize()})
         except Exception as e:
             db.session.rollback()
-            extra.error("An error occurred while updating the task")
+            error_logger.error("An error occurred while updating the task")
             return {'message': 'An error occurred while updating the task'}, 500
 
     @jwt_required()
@@ -74,5 +74,5 @@ class TaskResource(Resource):
             return jsonify({'msg': "Task deleted successfully"})
         except Exception as e:
             db.session.rollback()
-            extra.error("An error occurred while deleting the task")
+            error_logger.error("An error occurred while deleting the task")
             return {'message': 'An error occurred while deleting the task'}, 500

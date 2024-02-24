@@ -17,7 +17,7 @@ services:
   flask:
     build: .  # Builds your Flask app image from the current directory
     ports:
-      - "5002:5000"
+      - "8052:5000"
     depends_on:
       - postgres
     networks:

@@ -41,7 +41,7 @@ class UserRegister(Resource):
         if not email_pattern.match(email):
             return jsonify({"msg": "Invalid email address"})
 
-        if len(password) > 8:  # Password length validation
+        if not len(password) > 8:  # Password length validation
             return jsonify({"msg": "Password must be at most 8 characters long"})
 
         existing_user = User.query.filter_by(email=email).first()
